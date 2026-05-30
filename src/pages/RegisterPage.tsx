@@ -45,6 +45,7 @@ export function Registrierungsseite() {
   // Formular-Felder
   const [email,      setEmail]      = useState('');
   const [passwort,   setPasswort]   = useState('');
+  const [vorname,    setVorname]    = useState('');
   const [name,       setName]       = useState('');
   const [alter,      setAlter]      = useState('');
   const [avatar,     setAvatar]     = useState(AVATAR_FARBEN[0].id);
@@ -55,7 +56,7 @@ export function Registrierungsseite() {
   const weiter = async () => {
     setFehler('');
     if (aktuellerSchritt === 'konto') {
-      if (!name || !email || !passwort) {
+      if (!vorname || !name || !email || !passwort) {
         setFehler('Bitte alle Felder ausfüllen.');
         return;
       }
@@ -72,7 +73,7 @@ export function Registrierungsseite() {
         return;
       }
       await registrieren({
-        email, passwort: passwort, name,
+        email, passwort: passwort, vorname, name,
         geburtsdatum: parseInt(alter),
         avatar_farbe: avatar,
         bio: bio || `${name} | ${interessen.slice(0, 2).join(' & ')} Fan`,
@@ -122,7 +123,9 @@ export function Registrierungsseite() {
           {/* Schritt 1: Konto */}
           {aktuellerSchritt === 'konto' && (
             <div className="space-y-4">
-              <Input label="Vor- und Nachname" value={name}
+              <Input label="Vorname" value={vorname}
+                onChange={e => setVorname(e.target.value)} required />
+              <Input label="Name" value={name}
                 onChange={e => setName(e.target.value)} required />
               <Input type="email" label="E-Mail" value={email}
                 onChange={e => setEmail(e.target.value)} required />

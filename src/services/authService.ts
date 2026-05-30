@@ -36,12 +36,6 @@ function nutzerAusZeile(zeile: NutzerZeile, interessen: string[] = []): Nutzer {
   };
 }
 
-function nameAufteilen(vollerName?: string): { vorname: string; name: string } {
-  const teile = (vollerName || 'Neuer Nutzer').trim().split(/\s+/);
-  if (teile.length === 1) return { vorname: teile[0], name: 'Nutzer' };
-  return { vorname: teile.slice(0, -1).join(' '), name: teile[teile.length - 1] };
-}
-
 class AuthService {
   private aktuellerNutzer: Nutzer | null = null;
 
@@ -89,13 +83,12 @@ class AuthService {
   }
 
   async registrieren(nutzerdaten: Partial<Nutzer> & { email: string; passwort: string }): Promise<Nutzer> {
-    const name = nameAufteilen(nutzerdaten.name);
 
     if (supabaseIstKonfiguriert) {
       try {
         const [neuerNutzer] = await supabaseInsert<NutzerZeile>('nutzer', {
-          vorname: nutzerdaten.vorname || name.vorname,
-          name: name.name,
+          vorname: nutzerdaten.vorname,
+          name: nutzerdaten.name,
           universitaet: nutzerdaten.universitaet || null,
           studiengang: nutzerdaten.studiengang || null,
           geburtsdatum: geburtsdatumAusAlter(nutzerdaten.geburtsdatum || 18),
