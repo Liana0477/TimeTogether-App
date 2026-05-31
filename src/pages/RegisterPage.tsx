@@ -49,6 +49,8 @@ export function Registrierungsseite() {
   const [name,       setName]       = useState('');
   const [alter,      setAlter]      = useState('');
   const [avatar,     setAvatar]     = useState(AVATAR_FARBEN[0].id);
+  const [universitaet, setUniversitaet] = useState('');
+  const [studiengang, setStudiengang] = useState('');
   const [bio,        setBio]        = useState('');
   const [interessen, setInteressen] = useState<string[]>([]);
   const [fehler,     setFehler]     = useState('');
@@ -62,8 +64,8 @@ export function Registrierungsseite() {
       }
       setAktuellerSchritt('profil');
     } else if (aktuellerSchritt === 'profil') {
-      if (!alter) {
-        setFehler('Bitte Alter angeben.');
+      if (!alter || !universitaet || !studiengang) {
+        setFehler('Bitte alle Felder ausfüllen.');
         return;
       }
       setAktuellerSchritt('interessen');
@@ -73,11 +75,16 @@ export function Registrierungsseite() {
         return;
       }
       await registrieren({
-        email, passwort: passwort, vorname, name,
-        geburtsdatum: parseInt(alter),
+        email,
+        passwort,
+        vorname,
+        name,
+        alter,
+        universitaet,
+        studiengang,
         avatar_farbe: avatar,
-        bio: bio || `${name} | ${interessen.slice(0, 2).join(' & ')} Fan`,
-        interessen: interessen,
+        bio,
+        interessen,
       });
       navigate('/');
     }
@@ -162,6 +169,10 @@ export function Registrierungsseite() {
               <Input type="number" label="Alter" value={alter}
                 onChange={e => setAlter(e.target.value)}
                 min="18" max="99" required />
+              <Input label="Universität" value={universitaet}
+                onChange={e => setUniversitaet(e.target.value)} required />
+              <Input label="Studiengang" value={studiengang}
+                onChange={e => setStudiengang(e.target.value)} required />
 
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-1">

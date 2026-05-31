@@ -7,7 +7,7 @@ interface AuthContextTyp {
   nutzer: Nutzer | null;
   anmelden: (email: string, passwort: string) => Promise<boolean>;
   abmelden: () => void;
-  registrieren: (nutzerdaten: Partial<Nutzer> & { email: string; passwort: string }) => Promise<void>;
+  registrieren: (nutzerdaten: NutzerInput) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextTyp | undefined>(undefined);
@@ -28,9 +28,9 @@ export function AuthAnbieter({ children }: { children: ReactNode }) {
     setNutzer(null);
   };
 
-  const registrieren = async (nutzerdaten: Partial<Nutzer> & { email: string; passwort: string }) => {
-    const neuerNutzer = await authService.registrieren(nutzerdaten);
-    setNutzer(neuerNutzer);
+  const registrieren = async (nutzerdaten: NutzerInput) => {
+      const neuerNutzer = await authService.registrieren(nutzerdaten);
+      setNutzer(neuerNutzer);
   };
 
   return (

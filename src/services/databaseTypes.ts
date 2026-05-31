@@ -1,12 +1,29 @@
+// DB-Typ (wie Tabelle)
 export type NutzerZeile = {
   nutzer_nr: number;
   vorname: string;
   name: string;
   universitaet: string | null;
   studiengang: string | null;
-  geburtsdatum: string | null;
+  alter: number | null;
   avatar_farbe: string | null;
   bio: string | null;
+  email: string;
+  passwort: string;
+};
+
+// Input-Typ (für Registrierung!)
+export type NutzerInput = {
+  vorname: string;
+  name: string;
+  email: string;
+  passwort: string;
+  universitaet?: string;
+  studiengang?: string;
+  alter?: number;
+  avatar_farbe?: string;
+  bio?: string;
+  interessen?: string[];
 };
 
 export type KategorieZeile = {

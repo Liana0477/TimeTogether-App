@@ -47,7 +47,7 @@ export function Profilseite() {
   };
 
   // 6. Vollständiger Name
-  const vollstaendigerName = nutzer.vorname ? `${nutzer.vorname} ${nutzer.name}` : nutzer.name;
+  const vollstaendigerName = nutzer.vorname + " " + nutzer.name;
 
   return (
     <div className="min-h-screen bg-gray-100 pb-20">
@@ -88,7 +88,7 @@ export function Profilseite() {
             </div>
             <div>
               <h2 className="text-lg font-bold text-gray-900">{vollstaendigerName}</h2>
-              <p className="text-sm text-gray-500">{nutzer.geburtsdatum} Jahre</p>
+              <p className="text-sm text-gray-500">{nutzer.alter} Jahre</p>
               {nutzer.universitaet && (
                 <p className="text-xs text-gray-400 mt-0.5">{nutzer.universitaet}</p>
               )}
